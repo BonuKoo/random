@@ -1,0 +1,124 @@
+git init // 현재 띄워놓은 폴더를 사용할 git folder로 지정합니다.
+
+1. git remote origin 으로 remote 로 연결
+
+2. 단순 폴더를 만들고 ( git init도 안한채로)
+git clone을 해버리기 ( // http: //... )
+
+
+우리의 플젝
+: Master에 src/java/servlet 등등 올려놓을 예정
+
+-> git clone을 해버림
+
+git :: V.S.C(version controll system )
+
+git clone // https://github.com/BonuKoo/random.git . : 해당 폴더에 파일을 다운로드
+                                                                  .을 붙이지 않을 경우엔 , repository 이름을 딴 폴더를 별도로 생성해서, 해당 폴더에 파일 다운로드
+
+git remote -v 
+
+git status : 해당 디렉토리의 상태 , 기존의 상태에 비해서 ,   상태 변경을 나타냄. ex ) 폴더에 새로 파일이 생성되었으면 해당 파일을 보여주고, 변경된 파일이 있으면 파일을 보여줌
+
+Untracked files :: 버전 관리가 한번도 되지 않은 파일. 
+
+git add  파일명  ::  파일명을 일일이 쓰기
+git add . :  작업한 모든 file을 한번에 commit ( Staging 에 올린다.)    
+
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example
+$ git init
+Initialized empty Git repository in C:/Users/Admin/Desktop/example/.git/
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (master)
+$ git clone https://github.com/BonuKoo/random.git~
+Cloning into 'random.git~'...
+remote: Repository not found.
+fatal: repository 'https://github.com/BonuKoo/random.git~/' not found
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example
+$ git clone https://github.com/BonuKoo/random.git
+Cloning into 'random'...
+warning: You appear to have cloned an empty repository.
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example
+$ git clone https://github.com/BonuKoo/random.git .
+Cloning into '.'...
+warning: You appear to have cloned an empty repository.
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git remote -v
+origin  https://github.com/BonuKoo/random.git (fetch)
+origin  https://github.com/BonuKoo/random.git (push)
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        example.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git status
+On branch main
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        113.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ ^C
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git add 113.txt
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   113.txt
+
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git commit -m "test"
+[main (root-commit) 09e4be6] test
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 113.txt
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git status
+On branch main
+Your branch is based on 'origin/main', but the upstream is gone.
+  (use "git branch --unset-upstream" to fixup)
+
+nothing to commit, working tree clean
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$ git push
+remote: Permission to BonuKoo/random.git denied to qwertyuiiooopppppp.
+fatal: unable to access 'https://github.com/BonuKoo/random.git/': The requested
+URL returned error: 403
+
+Admin@DESKTOP-8M0TORM MINGW64 ~/Desktop/example (main)
+$
