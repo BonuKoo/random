@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +25,8 @@ public class BoardServiceImplTest {
 	@Test
 	public void testGetList() {
 		log.info("---------------GetList");
-		service.getList().forEach(
+		//service.getList().forEach(
+		service.getList(new Criteria(3,10)).forEach(
 				(list)->{
 					log.info("list : {}",list);
 				}
@@ -64,6 +66,10 @@ public class BoardServiceImplTest {
 	public void testSelectRead() {
 		log.info("-------------testSelectRead");
 		service.get(3L);
+	}
+	
+	public void testGetCount() {
+		log.info("total count : {}", service.getTotal(new Criteria(1,10)));
 	}
 	
 }

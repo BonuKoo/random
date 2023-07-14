@@ -36,7 +36,9 @@
 					<c:forEach items="${list}" var="board">
 						<tr>
 							<td><c:out value="${board.bno}"></c:out>
-							<td><a href='/board/get?bno=${board.bno}'>${board.title}</a></td>
+							<!-- <td><a class='move' href='/board/get?bno=${board.bno}'>${board.title}</a></td>  -->
+							<td><a class='move' href='${board.bno}'>${board.title}</a></td>
+							<!-- class를 move로 설정해둔 채로 , 클릭하면 /board/get?bno를 붙이고, 뒤에 get 붙이기 실행해서 브라우저에 붙임 -->
 							<td><c:out value="${board.writer}"></c:out>
 							<td><f:formatDate pattern="yyyy-MM-dd"
 									value="${board.regdate}"></f:formatDate>
@@ -46,15 +48,39 @@
 					</c:forEach>
 				</table>
 
+				<form id="actionForm" action="/board/list" method="get">
+					<input type='hidden' name=pageNum value="${pageMaker.cri.pageNum}">
+					<!-- 화면 상에 안보이게 하겠다  -->
+					<input type='hidden' name=amount value="${pageMaker.cri.amount}">
+					<!-- 화면 상에 안보이게 하겠다  -->
+				</form>
+				<!--  페이징 처리 시작 -->
+				<div class="pull-right">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev}">
+							<li class="page-item"><a class="page-link"
+								href="${pageMaker.startPage-1}">Previous</a></li>
+						</c:if>
 
+						<c:forEach var="num" begin="${pageMaker.startPage}"
+							end="${pageMaker.endPage}">
+							<li class="page-item  ${pageMaker.cri.pageNum == num ? "active":"" }">
+								<!-- class="page-link" --> <a href="${num}">${num}</a>
+							</li>
+						</c:forEach>
 
-
+						<c:if test="${pageMaker.next }">
+							<li class="page-item"><a class="page-link"
+								href="${pageMaker.endPage+1}">Next</a></li>
+							<!-- next 누르면 11 page로 넘어감 -->
+						</c:if>
+					</ul>
+				</div>
+				<!--  페이징 처리 끝 -->
 				<!-- The Modal Start-->
-
 				<div class="modal" id="myModal">
 					<div class="modal-dialog">
 						<div class="modal-content">
-
 							<!-- Modal Header -->
 							<div class="modal-header">
 								<h4 class="modal-title">Modal Heading</h4>
@@ -62,7 +88,7 @@
 							</div>
 
 							<!-- Modal body -->
-							<div class="modal-body">Modal body..</div>
+							<div class="modal-body">처리 완료</div>
 
 							<!-- Modal footer -->
 							<div class="modal-footer">
@@ -93,8 +119,8 @@
 
 				checkModal(result);
 
-				history.replaceState({},null,null);//브라우저 주소 창을 clear하는 기능
-					//현재 페이지 상태를 null값으로 초기화
+				history.replaceState({}, null, null);//브라우저 주소 창을 clear하는 기능
+				//현재 페이지 상태를 null값으로 초기화
 				function checkModal(result) {
 					if (result === '' || history.state) {
 						//result값이 없거나, history.state 값이 있으면 모달창을 띄우지 말라.
@@ -113,5 +139,25 @@
 					self.location = "/board/register";
 				});
 
+				var actionForm = $("#actionForm");
+				$(".page-item a").on(
+						"click",
+						function(e) { //62 줄 page-item 를 누르면 이동 : 책의 paginate_button 부분 
+							e.preventDefault();
+							console.log("click");
+							actionForm.find("input[name='pageNum']").val(
+									$(this).attr("href"));
+							actionForm.submit();
+						});
+			
+				//상세페이지 이동 시 bno 뿐만 아니라 pageNum과 amount값도 같이 넘겨준다.
+				//<td><a class='move' href='/board/get?bno=${board.bno}'>${board.title}</a></td> 약 39째 줄의 move로 이동
+				$(".move").on("click", function(e){
+					e.preventDefault();
+					actionForm.append("<input type='hidden' name='bno' value='" + $(this).attr("href")+"'>");
+					actionForm.attr("action", "/board/get");
+					actionForm.submit();
+				});
+				//<!--class를 move로 설정해둔 채로 , 클릭하면 /board/get?bno를 붙이고, 뒤에 get 붙이기 실행해서 브라우저에 붙임 -->
 			});
 </script>

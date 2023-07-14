@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -40,13 +41,26 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public boolean remove(Long bno) {
-		log.info("remove : {}" , bno);
+		log.info("remove : {}", bno);
 		return mapper.delete(bno)==1? true : false;
 	}
 
+//	@Override
+//	public List<BoardVO> getList() {
+//		log.info("getList");
+//		return mapper.getList();
+//	}
+	
 	@Override
-	public List<BoardVO> getList() {
-		log.info("getList");
-		return mapper.getList();
+	public List<BoardVO> getList(Criteria cri) {
+		log.info("getList with Criteria" + cri);
+		return mapper.getListWithPaging(cri);
 	}
+
+	@Override
+	public int getTotal(Criteria cri) {
+		return mapper.getTotalCount(cri);
+	}
+	
+	
 }
